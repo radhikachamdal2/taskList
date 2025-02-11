@@ -1,6 +1,7 @@
 import { Button, TextField, Snackbar, Alert, MenuItem } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styles from "./dialogData.module.css";
+import { Controller, useForm } from "react-hook-form";
 
 interface DialogDataProps {
   headers: Array<{
@@ -42,68 +43,82 @@ const DialogData: React.FC<DialogDataProps> = ({
   tasks,
   onSubmit,
 }) => {
-  const [formData, setFormData] = useState<{ [key: string]: string }>(() =>
-    headers.reduce((acc, item) => {
-      acc[item.title.toLowerCase()] = "";
-      return acc;
-    }, {} as { [key: string]: string })
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
+  const submitHandler = useCallback(
+    (data: Record<string, string>) => {
+      const newTask = {
+        id: tasks.length + 1,
+        title: data.title,
+        description: Array.isArray(data.description)
+          ? data.description
+          : [data.description],
+        status: data.status,
+      };
+
+      onSubmit(newTask);
+    },
+
+    [tasks, onSubmit]
   );
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setFormData((prevState) => ({
-      ...prevState,
-      [name.toLowerCase()]: value,
-    }));
-  };
-
-  const handleSubmit = () => {
-    const newTask = {
-      id: tasks.length + 1,
-      title: formData.title,
-      description: Array.isArray(formData.description)
-        ? formData.description
-        : [formData.description],
-      status: formData.status,
-    };
-
-    onSubmit(newTask);
-  };
-
+  debugger;
   return (
-    <div className={styles.wrapper}>
+    <form onSubmit={handleSubmit(submitHandler)}>
       {headers?.map((item, index) =>
         item.type !== "select" ? (
-          <TextField
-            sx={{ width: "80%", padding: "10px" }}
-            id={item.title}
-            name={item.title}
+          <Controller
             key={index}
-            label={item.title}
-            variant="standard"
-            onChange={handleChange}
-            value={formData[item.title.toLowerCase()] || ""}
+            name={item.title.toLowerCase()}
+            control={control}
+            rules={{
+              required: `${item.title} is required`,
+            }}
+            render={({ field: controllerField }) => (
+              <TextField
+                {...controllerField}
+                sx={{ width: "80%", padding: "10px" }}
+                id={item.title}
+                name={item.title}
+                label={item.title}
+                variant="standard"
+                error={!!errors[item.title.toLowerCase()]}
+                value={controllerField.value || ""}
+                helperText={errors[item.title.toLowerCase()]?.message}
+              />
+            )}
           />
         ) : (
-          <TextField
-            sx={{ width: "80%", padding: "10px" }}
-            id={item.title}
-            name={item.title}
-            select
+          <Controller
             key={index}
-            label={item.title}
-            variant="standard"
-            onChange={handleChange}
-            value={formData[item.title.toLowerCase()] || ""}
-          >
-            {Array.isArray(item.description) &&
-              item.description?.map((status: string, index: number) => (
-                <MenuItem key={status} value={status || ""}>
-                  {status}
-                </MenuItem>
-              ))}
-          </TextField>
+            name={item.title.toLowerCase()}
+            control={control}
+            rules={{ required: `${item.title} is required` }}
+            render={({ field: controllerField }) => (
+              <TextField
+                {...controllerField}
+                sx={{ width: "80%", padding: "10px" }}
+                id={item.title}
+                name={item.title}
+                select
+                label={item.title}
+                variant="standard"
+                value={controllerField.value || ""}
+                error={!!errors[item.title.toLowerCase()]}
+                helperText={errors[item.title.toLowerCase()]?.message}
+              >
+                {Array.isArray(item.description) &&
+                  item.description?.map((status: string, index: number) => (
+                    <MenuItem key={status} value={status || ""}>
+                      {status}
+                    </MenuItem>
+                  ))}
+              </TextField>
+            )}
+          />
         )
       )}
       <div
@@ -117,7 +132,6 @@ const DialogData: React.FC<DialogDataProps> = ({
         <Button
           sx={{ backgroundColor: "black", textTransform: "none" }}
           variant={"contained"}
-          type="submit"
           color="primary"
           onClick={handleClose}
         >
@@ -128,12 +142,11 @@ const DialogData: React.FC<DialogDataProps> = ({
           variant={"contained"}
           type="submit"
           color="primary"
-          onClick={handleSubmit}
         >
           Add
         </Button>
       </div>
-    </div>
+    </form>
   );
 };
 

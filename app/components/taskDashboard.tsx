@@ -1,11 +1,11 @@
 "use client";
 
 import { Button, Alert, Snackbar } from "@mui/material";
-import TaskTable from "./components/taskTable";
-import { allTasks, taskHeaders, addNewTaskFields } from "./mockData";
+import TaskTable from "./taskTable";
+import { allTasks, taskHeaders, addNewTaskFields } from "../mockData/mockData";
 import { useState, useCallback, useEffect } from "react";
-import Dialog from "./components/dialog";
-import DialogData from "./components/dialogData";
+import Dialog from "./dialog";
+import DialogData from "./dialogData";
 
 type Task = {
   id: number;
@@ -15,18 +15,23 @@ type Task = {
 };
 
 const TaskDashboard = () => {
-  const fetchStoredTasks = () => {
-    if (typeof window !== "undefined") {
+  useEffect(() => {
+    try {
       const storedTasks = localStorage.getItem("tasks");
-      return storedTasks ? JSON.parse(storedTasks) : allTasks;
+      const parseTasks: Task[] = storedTasks
+        ? JSON.parse(storedTasks)
+        : allTasks;
+      setTasks(parseTasks);
+    } catch (error) {
+      console.error("Failed to fetch tasks", error);
+      setTasks([]);
     }
-    return allTasks;
-  };
+  }, []);
 
   const [addNewDialog, setAddNewDialog] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [tasks, setTasks] = useState<Task[]>(fetchStoredTasks);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   const checkboxHandler = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>, singleTask: Task) => {
@@ -53,8 +58,6 @@ const TaskDashboard = () => {
           task.id === selectedTask.id ? { ...task, status: "Complete" } : task
         )
       );
-    } else {
-      setSelectedTask(null);
     }
   };
 
@@ -72,12 +75,24 @@ const TaskDashboard = () => {
           display: "flex",
           justifyContent: "end",
           gap: "20px",
+          marginTop: "1em",
+          marginBottom: "1em",
         }}
       >
-        <Button variant="contained" onClick={() => setAddNewDialog(true)}>
+        <Button
+          sx={{ textTransform: "none" }}
+          variant="contained"
+          onClick={() => setAddNewDialog(true)}
+          aria-label="Open add new task dialog"
+        >
           Open new dialog{" "}
         </Button>
-        <Button variant="contained" onClick={updateTask}>
+        <Button
+          sx={{ textTransform: "none" }}
+          variant="contained"
+          onClick={updateTask}
+          aria-label="Check selected task as complete"
+        >
           Complete Task{" "}
         </Button>
       </div>
@@ -87,7 +102,6 @@ const TaskDashboard = () => {
         checkboxHandler={checkboxHandler}
         taskHeaders={taskHeaders}
         tasks={tasks}
-        setTasks={setTasks}
       />
       <Dialog
         open={addNewDialog}
@@ -95,37 +109,34 @@ const TaskDashboard = () => {
           setAddNewDialog(false);
         }}
         title="Add new task"
-        children={
-          <>
-            <DialogData
-              tasks={tasks}
-              setTasks={setTasks}
-              headers={addNewTaskFields}
-              onSubmit={onSubmit}
-              handleClose={() => {
-                setAddNewDialog(false);
-              }}
-            />
-            <Snackbar
-              open={showAlert}
-              autoHideDuration={3000}
-              onClose={() => {
-                setShowAlert(false);
-              }}
-            >
-              <Alert
-                onClose={() => {
-                  setShowAlert(false);
-                }}
-                severity="success"
-                sx={{ width: "100%" }}
-              >
-                New Task Added
-              </Alert>
-            </Snackbar>
-          </>
-        }
-      />
+      >
+        <DialogData
+          tasks={tasks}
+          setTasks={setTasks}
+          headers={addNewTaskFields}
+          onSubmit={onSubmit}
+          handleClose={() => {
+            setAddNewDialog(false);
+          }}
+        />
+        <Snackbar
+          open={showAlert}
+          autoHideDuration={3000}
+          onClose={() => {
+            setShowAlert(false);
+          }}
+        >
+          <Alert
+            onClose={() => {
+              setShowAlert(false);
+            }}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            New Task Added
+          </Alert>
+        </Snackbar>
+      </Dialog>
     </>
   );
 };

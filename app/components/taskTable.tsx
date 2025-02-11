@@ -23,7 +23,6 @@ type Task = {
 interface TaskTableProps {
   tasks: Task[];
   taskHeaders: string[];
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
   checkboxHandler: (
     event: React.ChangeEvent<HTMLInputElement>,
     task: Task
@@ -34,14 +33,13 @@ interface TaskTableProps {
 const TaskTable: React.FC<TaskTableProps> = ({
   tasks,
   taskHeaders,
-  setTasks,
   checkboxHandler,
   selectedTask,
 }) => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+      backgroundColor: theme.palette.common.white,
+      color: theme.palette.common.black,
     },
     [`&.${tableCellClasses.body}`]: {
       fontSize: 14,
@@ -70,7 +68,23 @@ const TaskTable: React.FC<TaskTableProps> = ({
               </TableCell>
               <TableCell>{item.title}</TableCell>
               <TableCell>{item.description}</TableCell>
-              <TableCell>{item.status}</TableCell>
+              <TableCell
+                style={{
+                  backgroundColor:
+                    item.status === "Not Started"
+                      ? "#cc2204" //red
+                      : item.status === "In Progress"
+                      ? "#fcba03" //amber
+                      : "#2ea314", //green
+
+                  color: "#FFFFFF",
+                  textAlign: "center",
+                  borderRadius: "2px",
+                  fontWeight: 700,
+                }}
+              >
+                {item.status}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

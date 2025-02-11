@@ -1,13 +1,12 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-import TaskDashboard from "./taskDashboard";
+import TaskDashboard from "./components/taskDashboard";
+import Header from "./components/header";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}></main>
+    <div style={{ padding: "1em" }}>
+      <Header navigationHeader="Task Board" />
       <TaskDashboard />
-      <footer className={styles.footer}></footer>
+      <footer></footer>
     </div>
   );
 }
