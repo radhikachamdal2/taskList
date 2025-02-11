@@ -3,21 +3,26 @@
 import { Button } from "@mui/material";
 import TaskTable from "./components/taskTable";
 import { allTasks, taskHeaders, addNewTaskFields } from "./mockData";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Dialog from "./components/dialog";
 import DialogData from "./components/dialogData";
 
 type Task = {
   id: number;
   title: string;
-  description?: string;
+  description: string;
   status: string;
 };
 
 const TaskDashboard = () => {
-  const [tasks, setTasks] = useState<Task[]>(allTasks);
+  const fetchStoredTasks = () => {
+    const storedTasks = localStorage.getItem("tasks");
+    return storedTasks ? JSON.parse(storedTasks) : [];
+  };
+
   const [addNewDialog, setAddNewDialog] = useState<boolean>(false);
-  const [selectedTask, setSelectedTask] = useState<number | null>(null);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [tasks, setTasks] = useState<Task[]>(fetchStoredTasks);
 
   const checkboxHandler = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>, singleTask: Task) => {
@@ -31,6 +36,10 @@ const TaskDashboard = () => {
     []
   );
 
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
   const updateTask = () => {
     if (selectedTask) {
       setTasks((prevTasks) =>
@@ -38,7 +47,8 @@ const TaskDashboard = () => {
           task.id === selectedTask.id ? { ...task, status: "Complete" } : task
         )
       );
-      console.log(selectedTask, "updated task", tasks);
+    } else {
+      setSelectedTask(null);
     }
   };
 
@@ -63,7 +73,7 @@ const TaskDashboard = () => {
           <DialogData
             tasks={tasks}
             setTasks={setTasks}
-            data={addNewTaskFields}
+            headers={addNewTaskFields}
             handleClose={() => {
               setAddNewDialog(false);
             }}

@@ -16,7 +16,7 @@ import React, { useCallback, useState } from "react";
 type Task = {
   id: number;
   title: string;
-  description?: string;
+  description: string[];
   status: string;
 };
 
@@ -24,8 +24,11 @@ interface TaskTableProps {
   tasks: Task[];
   taskHeaders: string[];
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-  checkboxHandler: (task: Task) => void;
-  selectedTask: {};
+  checkboxHandler: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    task: Task
+  ) => void;
+  selectedTask: Task | null;
 }
 
 const TaskTable: React.FC<TaskTableProps> = ({
@@ -57,7 +60,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
         </TableHead>
 
         <TableBody>
-          {tasks?.map((item: any, index) => (
+          {tasks?.map((item, index) => (
             <TableRow key={item.id}>
               <TableCell>
                 <Checkbox

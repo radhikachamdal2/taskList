@@ -2,9 +2,9 @@ import { Button, TextField, Snackbar, Alert, MenuItem } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 interface DialogDataProps {
-  data: Array<{
+  headers: Array<{
     title: string;
-    description: string;
+    description: string[];
     type: string;
   }>;
   handleClose?: (
@@ -13,7 +13,7 @@ interface DialogDataProps {
   tasks: Array<{
     id: number;
     title: string;
-    description: string;
+    description: string[];
     status: string;
   }>;
   setTasks: React.Dispatch<
@@ -21,7 +21,7 @@ interface DialogDataProps {
       Array<{
         id: number;
         title: string;
-        description: string;
+        description: string[];
         status: string;
       }>
     >
@@ -29,13 +29,13 @@ interface DialogDataProps {
 }
 
 const DialogData: React.FC<DialogDataProps> = ({
-  data,
+  headers,
   handleClose,
   setTasks,
   tasks,
 }) => {
   const [formData, setFormData] = useState<{ [key: string]: string }>(() =>
-    data.reduce((acc, item) => {
+    headers.reduce((acc, item) => {
       acc[item.title.toLowerCase()] = "";
       return acc;
     }, {} as { [key: string]: string })
@@ -53,7 +53,11 @@ const DialogData: React.FC<DialogDataProps> = ({
   const handleSubmit = () => {
     const newTask = {
       id: tasks.length + 1,
-      ...formData,
+      title: formData.title,
+      description: Array.isArray(formData.description)
+        ? formData.description
+        : [formData.description],
+      status: formData.status,
     };
 
     setTasks((prevTasks) => [...prevTasks, newTask]);
@@ -61,7 +65,7 @@ const DialogData: React.FC<DialogDataProps> = ({
 
   return (
     <div style={{ alignItems: "center", width: "100%" }}>
-      {data?.map((item, index) =>
+      {headers?.map((item, index) =>
         item.type !== "select" ? (
           <TextField
             sx={{ width: "80%", padding: "10px" }}
