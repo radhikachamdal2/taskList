@@ -10,7 +10,7 @@ Clone the repo, to a place where you'd like to store
 
 Run in VS code or editor of choice
 
-Use the cd command within the terminal and type "cd task-list"
+Use the cd command within the terminal and type "cd taskList"
 
 Run the command "npm install"
 
