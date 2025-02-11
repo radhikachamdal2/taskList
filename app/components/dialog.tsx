@@ -4,12 +4,14 @@ import {
   DialogTitle,
   Button,
   DialogContent,
+  DialogContentText,
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 interface DialogProps {
   title: string;
+  contentText: string;
   children: any;
   handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   open: boolean;
@@ -17,6 +19,7 @@ interface DialogProps {
 
 const Dialog: React.FC<DialogProps> = ({
   title,
+  contentText,
   children,
   open,
   handleClose,
@@ -35,7 +38,10 @@ const Dialog: React.FC<DialogProps> = ({
         </div>
 
         <DialogTitle>{title}</DialogTitle>
-        <DialogContent>{children} </DialogContent>
+        <DialogContent>
+          <DialogContentText>{contentText}</DialogContentText>
+          {children}
+        </DialogContent>
       </ReusableDialog>
     </>
   );

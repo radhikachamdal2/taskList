@@ -109,6 +109,7 @@ const TaskDashboard = () => {
           setAddNewDialog(false);
         }}
         title="Add new task"
+        contentText="To add a new task below, please fill out all the fields!"
       >
         <DialogData
           tasks={tasks}
