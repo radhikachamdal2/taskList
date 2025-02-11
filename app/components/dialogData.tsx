@@ -1,6 +1,5 @@
-import { Button, TextField, Snackbar, Alert, MenuItem } from "@mui/material";
-import React, { useEffect, useState, useCallback } from "react";
-import styles from "./dialogData.module.css";
+import { Button, TextField, MenuItem } from "@mui/material";
+import React, { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 interface DialogDataProps {
@@ -24,22 +23,11 @@ interface DialogDataProps {
     description: string[];
     status: string;
   }>;
-  setTasks: React.Dispatch<
-    React.SetStateAction<
-      Array<{
-        id: number;
-        title: string;
-        description: string[];
-        status: string;
-      }>
-    >
-  >;
 }
 
 const DialogData: React.FC<DialogDataProps> = ({
   headers,
   handleClose,
-  setTasks,
   tasks,
   onSubmit,
 }) => {
@@ -48,6 +36,8 @@ const DialogData: React.FC<DialogDataProps> = ({
     control,
     formState: { errors },
   } = useForm();
+
+  console.log(errors, "errors");
 
   const submitHandler = useCallback(
     (data: Record<string, string>) => {
@@ -65,7 +55,7 @@ const DialogData: React.FC<DialogDataProps> = ({
 
     [tasks, onSubmit]
   );
-  debugger;
+
   return (
     <form onSubmit={handleSubmit(submitHandler)}>
       {headers?.map((item, index) =>
@@ -87,7 +77,7 @@ const DialogData: React.FC<DialogDataProps> = ({
                 variant="standard"
                 error={!!errors[item.title.toLowerCase()]}
                 value={controllerField.value || ""}
-                helperText={errors[item.title.toLowerCase()]?.message}
+                helperText={errors[item.title.toLowerCase()]?.message || " "}
               />
             )}
           />
@@ -108,10 +98,10 @@ const DialogData: React.FC<DialogDataProps> = ({
                 variant="standard"
                 value={controllerField.value || ""}
                 error={!!errors[item.title.toLowerCase()]}
-                helperText={errors[item.title.toLowerCase()]?.message}
+                helperText={errors[item.title.toLowerCase()]?.message || " "}
               >
                 {Array.isArray(item.description) &&
-                  item.description?.map((status: string, index: number) => (
+                  item.description?.map((status: string) => (
                     <MenuItem key={status} value={status || ""}>
                       {status}
                     </MenuItem>

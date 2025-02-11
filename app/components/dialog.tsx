@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Dialog as ReusableDialog,
   DialogTitle,
-  Button,
   DialogContent,
   DialogContentText,
   IconButton,
@@ -12,7 +11,7 @@ import CloseIcon from "@mui/icons-material/Close";
 interface DialogProps {
   title: string;
   contentText: string;
-  children: any;
+  children: React.ReactNode;
   handleClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   open: boolean;
 }

@@ -11,7 +11,7 @@ import {
   TableBody,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import React, { useCallback, useState } from "react";
+import React from "react";
 
 type Task = {
   id: number;
@@ -58,7 +58,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
         </TableHead>
 
         <TableBody>
-          {tasks?.map((item, index) => (
+          {tasks?.map((item) => (
             <TableRow key={item.id}>
               <TableCell>
                 <Checkbox

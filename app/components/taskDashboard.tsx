@@ -85,7 +85,7 @@ const TaskDashboard = () => {
           onClick={() => setAddNewDialog(true)}
           aria-label="Open add new task dialog"
         >
-          Open new dialog{" "}
+          Add New Task
         </Button>
         <Button
           sx={{ textTransform: "none" }}
@@ -113,7 +113,6 @@ const TaskDashboard = () => {
       >
         <DialogData
           tasks={tasks}
-          setTasks={setTasks}
           headers={addNewTaskFields}
           onSubmit={onSubmit}
           handleClose={() => {
