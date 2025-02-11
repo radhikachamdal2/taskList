@@ -1,5 +1,6 @@
 import { Button, TextField, Snackbar, Alert, MenuItem } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import styles from "./dialogData.module.css";
 
 interface DialogDataProps {
   headers: Array<{
@@ -10,6 +11,12 @@ interface DialogDataProps {
   handleClose?: (
     event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
+  onSubmit: (newTask: {
+    id: number;
+    title: string;
+    description: string[];
+    status: string;
+  }) => void;
   tasks: Array<{
     id: number;
     title: string;
@@ -33,6 +40,7 @@ const DialogData: React.FC<DialogDataProps> = ({
   handleClose,
   setTasks,
   tasks,
+  onSubmit,
 }) => {
   const [formData, setFormData] = useState<{ [key: string]: string }>(() =>
     headers.reduce((acc, item) => {
@@ -60,11 +68,11 @@ const DialogData: React.FC<DialogDataProps> = ({
       status: formData.status,
     };
 
-    setTasks((prevTasks) => [...prevTasks, newTask]);
+    onSubmit(newTask);
   };
 
   return (
-    <div style={{ alignItems: "center", width: "100%" }}>
+    <div className={styles.wrapper}>
       {headers?.map((item, index) =>
         item.type !== "select" ? (
           <TextField
