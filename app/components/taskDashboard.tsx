@@ -6,6 +6,7 @@ import { allTasks, taskHeaders, addNewTaskFields } from "../mockData/mockData";
 import { useState, useCallback, useEffect } from "react";
 import Dialog from "./dialog";
 import DialogData from "./dialogData";
+import ToggleButtons from "./toggleButton";
 
 type Task = {
   id: number;
@@ -32,6 +33,7 @@ const TaskDashboard = () => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [showCompleted, setShowCompleted] = useState(false);
 
   const checkboxHandler = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>, singleTask: Task) => {
@@ -67,6 +69,12 @@ const TaskDashboard = () => {
     setAddNewDialog(false);
   };
 
+  const filterCompletedTasks = (tasks: Task[]): Task[] => {
+    return tasks.filter((task) => task.status.toLowerCase() === "complete");
+  };
+
+  const displayedTasks = showCompleted ? filterCompletedTasks(tasks) : tasks;
+
   return (
     <>
       <div
@@ -79,6 +87,10 @@ const TaskDashboard = () => {
           marginBottom: "1em",
         }}
       >
+        <ToggleButtons
+          showCompleted={showCompleted}
+          setShowCompleted={setShowCompleted}
+        />
         <Button
           sx={{ textTransform: "none" }}
           variant="contained"
@@ -101,7 +113,7 @@ const TaskDashboard = () => {
         selectedTask={selectedTask}
         checkboxHandler={checkboxHandler}
         taskHeaders={taskHeaders}
-        tasks={tasks}
+        tasks={displayedTasks}
       />
       <Dialog
         open={addNewDialog}
