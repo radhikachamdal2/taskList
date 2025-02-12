@@ -29,7 +29,7 @@ const TaskDashboard = () => {
       setTasks(parseTasks);
     } catch (error) {
       console.error("Failed to fetch tasks", error);
-      setTasks([]);
+      setTasks(allTasks);
     }
   }, []);
 
