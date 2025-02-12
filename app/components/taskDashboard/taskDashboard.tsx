@@ -1,12 +1,16 @@
 "use client";
 
 import { Button, Alert, Snackbar } from "@mui/material";
-import TaskTable from "./taskTable";
-import { allTasks, taskHeaders, addNewTaskFields } from "../mockData/mockData";
+import TaskTable from "../taskTable/taskTable";
+import {
+  allTasks,
+  taskHeaders,
+  addNewTaskFields,
+} from "../../mockData/mockData";
 import { useState, useCallback, useEffect } from "react";
-import Dialog from "./dialog";
-import DialogData from "./dialogData";
-import ToggleButtons from "./toggleButton";
+import Dialog from "../dialog/dialog";
+import DialogData from "../dialogData/dialogData";
+import ToggleButtons from "../toggleButton/toggleButton";
 
 type Task = {
   id: number;
@@ -97,15 +101,15 @@ const TaskDashboard = () => {
           onClick={() => setAddNewDialog(true)}
           aria-label="Open add new task dialog"
         >
-          Add New Task
+          Add Task
         </Button>
         <Button
           sx={{ textTransform: "none" }}
           variant="contained"
           onClick={updateTask}
-          aria-label="Check selected task as complete"
+          aria-label="Complete Task"
         >
-          Complete Task{" "}
+          Complete Task
         </Button>
       </div>
 

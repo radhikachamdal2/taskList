@@ -4,9 +4,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  IconButton,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 
 interface DialogProps {
   title: string;
@@ -26,16 +24,6 @@ const Dialog: React.FC<DialogProps> = ({
   return (
     <>
       <ReusableDialog open={open} onClose={handleClose}>
-        <div style={{ display: "flex", justifyContent: "end" }}>
-          <IconButton
-            onClick={handleClose}
-            size="small"
-            aria-label="Close Dialog"
-          >
-            <CloseIcon />
-          </IconButton>
-        </div>
-
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{contentText}</DialogContentText>

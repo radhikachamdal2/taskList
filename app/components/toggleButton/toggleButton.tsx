@@ -27,10 +27,14 @@ const ToggleButtons: React.FC<ToggleButtonsProps> = ({
       onChange={handleToggle}
       aria-label="View Tasks"
     >
-      <ToggleButton value="completed" aria-label="View Completed Tasks">
+      <ToggleButton
+        role="button"
+        value="completed"
+        aria-label="View Completed Tasks"
+      >
         View Filtered Tasks
       </ToggleButton>
-      <ToggleButton value="all" aria-label="View All Tasks">
+      <ToggleButton role="button" value="all" aria-label="View All Tasks">
         All Tasks
       </ToggleButton>
     </ToggleButtonGroup>

@@ -37,8 +37,6 @@ const DialogData: React.FC<DialogDataProps> = ({
     formState: { errors },
   } = useForm();
 
-  console.log(errors, "errors");
-
   const submitHandler = useCallback(
     (data: Record<string, string>) => {
       const newTask = {
@@ -57,7 +55,7 @@ const DialogData: React.FC<DialogDataProps> = ({
   );
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)}>
+    <form role="form" onSubmit={handleSubmit(submitHandler)}>
       {headers?.map((item, index) =>
         item.type !== "select" ? (
           <Controller

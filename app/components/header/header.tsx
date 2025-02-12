@@ -15,6 +15,7 @@ const Header: React.FC<HeaderProps> = ({ navigationHeader }) => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar
+          data-testid="toolbar"
           sx={{
             display: "flex",
             width: "100%",
@@ -33,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({ navigationHeader }) => {
           </Typography>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Avatar />
+            <Avatar>R</Avatar>
           </Box>
         </Toolbar>
       </Container>
