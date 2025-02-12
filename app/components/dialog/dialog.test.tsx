@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import Dialog from "./dialog"; // Adjust the import path as needed
+import Dialog from "./Dialog";
 import "@testing-library/jest-dom";
 
 describe("Dialog Component", () => {

@@ -1,16 +1,16 @@
 "use client";
 
 import { Button, Alert, Snackbar } from "@mui/material";
-import TaskTable from "../taskTable/taskTable";
+import TaskTable from "../taskTable/TaskTable";
 import {
   allTasks,
   taskHeaders,
   addNewTaskFields,
 } from "../../mockData/mockData";
 import { useState, useCallback, useEffect } from "react";
-import Dialog from "../dialog/dialog";
-import DialogData from "../dialogData/dialogData";
-import ToggleButtons from "../toggleButton/toggleButton";
+import Dialog from "../dialog/Dialog";
+import DialogData from "../dialogData/DialogData";
+import ToggleButtons from "../toggleButton/ToggleButton";
 
 type Task = {
   id: number;

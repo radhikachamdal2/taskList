@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import DialogData from "./dialogData";
+import DialogData from "./DialogData";
 import { allTasks, addNewTaskFields } from "../../mockData/mockData";
 
 test("calls onSubmit with correct data", async () => {
@@ -14,7 +14,6 @@ test("calls onSubmit with correct data", async () => {
     />
   );
 
-  // Find the form fields based on the labels or names from `addNewTaskFields`
   const titleInput = screen.getByLabelText(/title/i);
   const descriptionInput = screen.getByLabelText(/description/i);
   const statusInput = screen.getByLabelText(/status/i);

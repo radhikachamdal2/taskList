@@ -1,5 +1,5 @@
-import TaskDashboard from "./components/taskDashboard/taskDashboard";
-import Header from "./components/header/header";
+import TaskDashboard from "./components/taskDashboard/TaskDashboard";
+import Header from "./components/header/Header";
 
 export default function Home() {
   return (

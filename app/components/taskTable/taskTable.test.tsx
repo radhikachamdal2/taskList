@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import TaskTable from "./taskTable";
+import TaskTable from "./TaskTable";
 
 describe("TaskTable Component", () => {
   const mockTasks = [

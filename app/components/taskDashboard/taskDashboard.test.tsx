@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import TaskDashboard from "./taskDashboard";
+import TaskDashboard from "./TaskDashboard";
 
 describe("TaskDashboard Component", () => {
   beforeEach(() => {
