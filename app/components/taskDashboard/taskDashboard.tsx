@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Alert, Snackbar } from "@mui/material";
-import TaskTable from "../taskTable/TaskTable";
+import TaskTable from "../taskTable/taskTable";
 import {
   allTasks,
   taskHeaders,
@@ -9,8 +9,8 @@ import {
 } from "../../mockData/mockData";
 import { useState, useCallback, useEffect } from "react";
 import Dialog from "../dialog/Dialog";
-import DialogData from "../dialogData/DialogData";
-import ToggleButtons from "../toggleButton/ToggleButton";
+import DialogData from "../dialogData/dialogData";
+import ToggleButtons from "../toggleButton/toggleButton";
 
 type Task = {
   id: number;
@@ -36,7 +36,7 @@ const TaskDashboard = () => {
   const [addNewDialog, setAddNewDialog] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>(allTasks);
   const [showCompleted, setShowCompleted] = useState(false);
 
   const checkboxHandler = useCallback(

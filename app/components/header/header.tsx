@@ -34,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({ navigationHeader }) => {
           </Typography>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Avatar>R</Avatar>
+            <Avatar aria-label="user profile">R</Avatar>
           </Box>
         </Toolbar>
       </Container>

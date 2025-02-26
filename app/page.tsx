@@ -1,12 +1,13 @@
-import TaskDashboard from "./components/taskDashboard/TaskDashboard";
-import Header from "./components/header/Header";
+import TaskDashboard from "./components/taskDashboard/taskDashboard";
+import Header from "./components/header/header";
 
 export default function Home() {
   return (
     <div style={{ padding: "1em" }}>
       <Header navigationHeader="Task Board" />
-      <TaskDashboard />
-      <footer></footer>
+      <main>
+        <TaskDashboard />
+      </main>
     </div>
   );
 }

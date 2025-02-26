@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import DialogData from "./DialogData";
+import DialogData from "./dialogData";
 import { allTasks, addNewTaskFields } from "../../mockData/mockData";
 
 test("calls onSubmit with correct data", async () => {

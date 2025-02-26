@@ -49,6 +49,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
   return (
     <TableContainer component={Paper}>
       <Table>
+        <caption>List of tasks with statuses and descriptions</caption>
         <TableHead>
           <TableRow>
             {taskHeaders?.map((header, index) => (
